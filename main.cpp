@@ -10,7 +10,7 @@ using namespace std;
 Student* addStudent();
 void addNode(Student* student, Node* &current, Node* &start);
 void printNode(Node* start);
-void deleteStudent(char studentName[], Node* &start, Node* current);
+void deleteStudent(int studentID, Node* &start, Node* current);
 Node* findNode(Node* newNode, Node* start);
 double average(Node* start, double GPA, int count);
 
@@ -42,12 +42,12 @@ int main() {
     }
     else if(strcmp(input, "delete") == 0) {
       //input student name
-      cout << "Student Name: ";
-      char studentName[80];
-      cin.get(studentName, 80);
-      cin.get();
+      cout << "Student ID: ";
+      int studentID;
+      cin >> studentID;
+      cin.ignore();
       //delete that Node and student
-      deleteStudent(studentName, start, start);
+      deleteStudent(studentID, start, start);
     }
     else if (strcmp(input, "average") == 0) {
       //find average GPA and print to 2 decimal places
@@ -181,13 +181,13 @@ void printNode(Node* start) {
   
 
 
-void deleteStudent(char studentName[], Node* &start, Node* current) {
+void deleteStudent(int studentID, Node* &start, Node* current) {
   if (start == NULL) {
     cout << "no students" << endl;
     return;
   }
   //if the first node is this one, delete the first node and reset the new first node
-  if (current == start && strcmp(current->getStudent()->getName(), studentName) == 0) {
+  if (current == start && current->getStudent()->getID() == studentID) {
     start = current->getNext();
     delete current;
     return;
@@ -198,14 +198,19 @@ void deleteStudent(char studentName[], Node* &start, Node* current) {
     return;
   }
   //if this is the node! reset this node next node, and delete its next node
-  else if (strcmp(current->getNext()->getStudent()->getName(), studentName) == 0) {
+  else if (current->getNext()->getStudent()->getID() == studentID) {
     Node* deleteNode = current->getNext();
-    current->setNext(current->getNext()->getNext());
-    delete deleteNode;
+    if (current->getNext()->getNext() == NULL) {
+      current->setNext(NULL);
+    }
+    else {
+      current->setNext(current->getNext()->getNext());
+      delete deleteNode;
+    }
     return;
   }
   //iterate to the next node if not found
-  deleteStudent(studentName, start, current->getNext());
+  deleteStudent(studentID, start, current->getNext());
   
 }
 //find average GPA
