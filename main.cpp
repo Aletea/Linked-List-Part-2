@@ -161,6 +161,9 @@ Node* findNode(Node* newNode, Node* start) {
 
 void printNode(Node* start) {
   //start with first node and print
+  if (start == NULL) {
+    return;
+  }
   Node* current = start;
   Student* currentStudent = current->getStudent();
   cout << "Name: " << currentStudent->getName() << endl;
