@@ -162,6 +162,7 @@ Node* findNode(Node* newNode, Node* start) {
 void printNode(Node* start) {
   //start with first node and print
   if (start == NULL) {
+    cout << "Nothing to print" << endl;
     return;
   }
   Node* current = start;
